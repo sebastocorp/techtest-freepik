@@ -1,0 +1,19 @@
+{
+    "project": "freepik",
+    "service": "api",
+    "containerfile": "Containerfile.freepik.api",
+    "version": {
+        "develop": {
+            "mayor": 0,
+            "minor": 0,
+            "patch": 0,
+            "extra": "-dev"
+        },
+        "production": {
+            "mayor": 0,
+            "minor": 0,
+            "patch": 0,
+            "extra": ""
+        }
+    }
+}

@@ -1,0 +1,3 @@
+[submodule "containers-scripts"]
+	path = containers-scripts
+	url = git@github.com:sebastocorp/containers-scripts.git
