@@ -1,0 +1,19 @@
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/memcached/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace minipokedex
+## install commands:
+##   - helm upgrade minipokedex-memcached . --install --values values-production.yaml --namespace minipokedex
+## uninstall commands:
+##   - helm uninstall minipokedex-memcached --namespace minipokedex
+---
+apiVersion: v2
+name: minipokedex-memcached
+version: 1.0.0
+dependencies:
+  - name: memcached
+    version: 7.0.3 # app version: 1.6.26
+    repository: https://charts.bitnami.com/bitnami
+    alias: memcached

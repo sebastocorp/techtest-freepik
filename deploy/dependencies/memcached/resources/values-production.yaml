@@ -1,0 +1,26 @@
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/memcached/values.yaml
+---
+memcached:
+  architecture: high-availability
+  replicaCount: 3
+
+  ## NOTE: in bitnami charts the readiness, startup and liveness probes are set by default
+
+  ## Add priority class name to ensure availability
+  priorityClassName: high-priority
+
+  ## Affinity and tolerations to enforce the deployment to specific nodes
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-type
+            operator: In
+            values:
+            - data
+  tolerations:
+  - key: data
+    value: dedicated
+    operator: Equal
+    effect: NoSchedule
