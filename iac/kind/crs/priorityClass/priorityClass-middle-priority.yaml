@@ -1,0 +1,9 @@
+## REF: https://kubernetes.io/blog/2023/01/12/protect-mission-critical-pods-priorityclass/
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: middle-priority
+value: 500000000 # any integer value between -1000000000 to 1000000000 
+description: >-
+  Priority for all Pods we use internally that do not affect customers.
+globalDefault: false # or true. Only one PriorityClass can be the global default.
