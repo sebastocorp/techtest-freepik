@@ -1,0 +1,19 @@
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/redis/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace minipokedex
+## install commands:
+##   - helm upgrade minipokedex-redis . --install --values values-production.yaml --namespace minipokedex
+## uninstall commands:
+##   - helm uninstall minipokedex-redis --namespace minipokedex
+---
+apiVersion: v2
+name: minipokedex-redis
+version: 1.0.0
+dependencies:
+  - name: redis
+    version: 19.0.2 # app version: 7.2.4
+    repository: https://charts.bitnami.com/bitnami
+    alias: redis

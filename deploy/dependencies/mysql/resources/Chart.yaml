@@ -3,7 +3,7 @@
 ##   - helm dependency build
 ##   - helm dependency update
 ## template commands:
-##   - helm template . --values values-develop.yaml --namespace minipokedex
+##   - helm template . --values values-production.yaml --namespace minipokedex
 ## install commands:
 ##   - helm upgrade minipokedex-mysql . --install --values values-production.yaml --namespace minipokedex
 ## uninstall commands:

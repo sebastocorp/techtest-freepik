@@ -1,0 +1,47 @@
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/redis/values.yaml
+---
+redis:
+  auth:
+    enabled: false
+    existingSecret: minipokedex-redis-credentials
+    existingSecretPasswordKey: redis-password
+  master:
+    ## Add priority class name to ensure availability
+    priorityClassName: high-priority
+
+    ## NOTE: in bitnami charts the readiness, startup and liveness probes are set by default
+
+    ## Affinity and tolerations to enforce the deployment to specific nodes
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+              - data
+    tolerations:
+    - key: data
+      value: dedicated
+      operator: Equal
+      effect: NoSchedule
+  
+  replica:
+    replicaCount: 1
+    ## Add priority class name to ensure availability
+    priorityClassName: high-priority
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+              - data
+    tolerations:
+    - key: data
+      value: dedicated
+      operator: Equal
+      effect: NoSchedule
