@@ -22,21 +22,21 @@ return static function (ContainerBuilder $containerBuilder)
                     'level' => Logger::DEBUG,
                 ],
                 'database' => [
-                    'host' => 'db',
-                    'port' => '3306',
-                    'name' => 'minipokedex',
-                    'user' => 'root',
-                    'password' => 'root',
-                    'charset' => 'utf8mb4',
+                    'host' => getenv('DB_HOST'),
+                    'port' => getenv('DB_PORT'),
+                    'name' => getenv('DB_NAME'),
+                    'user' => getenv('DB_USER'),
+                    'password' => getenv('DB_PASS'),
+                    'charset' => getenv('DB_CHARSET'),
                 ],
                 'redis' => [
-                    'schema' => 'tcp',
-                    'host' => 'redis',
-                    'port' => '6379',
+                    'schema' => getenv('REDIS_SCHEMA'),
+                    'host' => getenv('REDIS_HOST'),
+                    'port' => getenv('REDIS_PORT'),
                 ],
                 'memcached' => [
-                    'host' => 'memcached',
-                    'port' => 11211,
+                    'host' => getenv('MEMCACHED_HOST'),
+                    'port' => getenv('MEMCACHED_PORT'),
                 ],
             ]);
         }

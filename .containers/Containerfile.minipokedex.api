@@ -1,9 +1,13 @@
 ########################################################################################################################
 ### BASE
 ########################################################################################################################
-FROM composer:2.7.2 as base
+FROM php:8.3.4-fpm-bullseye as base
 
-WORKDIR /app
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY .containers/setup.freepik.api.sh .
+RUN chmod +x ./setup.freepik.api.sh && ./setup.freepik.api.sh && rm setup.freepik.api.sh
+
+WORKDIR /usr/src/app
 
 ########################################################################################################################
 ### BUILD
@@ -11,12 +15,13 @@ WORKDIR /app
 FROM base as build
 
 COPY ./pokemonAPI .
-RUN php --ini
-RUN composer install
+RUN composer update --ignore-platform-req=ext-pdo_mysql && \
+    composer install --ignore-platform-req=ext-pdo_mysql
+RUN php vendor/bin/phpunit test
 
 ########################################################################################################################
 ### APPLICATION ### PROD BUILD: docker build . --tag '<image-ref>:<image-tag>' --target application
 ########################################################################################################################
 FROM build as application
 
-# CMD ["php", "main.py"]
+CMD ["php", "public/index.php"]

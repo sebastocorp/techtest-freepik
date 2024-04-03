@@ -1,7 +1,7 @@
 {
-    "project": "freepik",
+    "project": "minipokedex",
     "service": "api",
-    "containerfile": "Containerfile.freepik.api",
+    "containerfile": "Containerfile.minipokedex.api",
     "version": {
         "develop": {
             "mayor": 0,

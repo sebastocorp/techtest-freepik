@@ -1,6 +1,7 @@
 {
   "name": "graphicresources/dev-env-boilerplate",
   "description": "Ejemplo básico de proyecto que hace uso del dev-env-boilerplate",
+  "version": "2.7.2",
   "require": {
     "php": "^8",
     "monolog/monolog": "^2",
