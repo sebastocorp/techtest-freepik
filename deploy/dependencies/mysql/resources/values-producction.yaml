@@ -1,0 +1,51 @@
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/mysql/values.yaml
+---
+mysql:
+  auth:
+    username: minipokedex
+    database: minipokedex_data
+    existingSecret: minipokedex-mysql-credentials
+  primary:
+    ## Add priority class name to ensure availability
+    priorityClassName: high-priority
+
+    ## Is better option externalize the pvc to control the storage
+    persistence:
+      existingClaim: 
+
+    ## NOTE: in bitnami charts the readiness, startup and liveness probes are set by default
+
+    ## Affinity and tolerations to enforce the deployment to specific nodes
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+              - data
+    tolerations:
+    - key: data
+      value: dedicated
+      operator: Equal
+      effect: NoSchedule
+  
+  secondary:
+    replicaCount: 2
+    ## Add priority class name to ensure availability
+    priorityClassName: high-priority
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+              - data
+    tolerations:
+    - key: data
+      value: dedicated
+      operator: Equal
+      effect: NoSchedule

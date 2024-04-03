@@ -1,0 +1,19 @@
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/mysql/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-develop.yaml --namespace minipokedex
+## install commands:
+##   - helm upgrade minipokedex-mysql . --install --values values-develop.yaml --namespace minipokedex
+## uninstall commands:
+##   - helm uninstall minipokedex-mysql --namespace minipokedex
+---
+apiVersion: v2
+name: minipokedex-mysql
+version: 1.0.0
+dependencies:
+  - name: mysql
+    version: 13.1.3 # app version: 11.0.3
+    repository: https://charts.bitnami.com/bitnami
+    alias: mysql
