@@ -35,3 +35,7 @@ terraform.rc
 .terraform.lock.hcl
 
 *.env*
+
+# helm resources
+charts/
+Chart.lock

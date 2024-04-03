@@ -11,7 +11,7 @@ mysql:
 
     ## Is better option externalize the pvc to control the storage
     persistence:
-      existingClaim: 
+      existingClaim: minipokedex-mysql-data
 
     ## NOTE: in bitnami charts the readiness, startup and liveness probes are set by default
 
@@ -32,7 +32,7 @@ mysql:
       effect: NoSchedule
   
   secondary:
-    replicaCount: 2
+    replicaCount: 1
     ## Add priority class name to ensure availability
     priorityClassName: high-priority
     affinity:
