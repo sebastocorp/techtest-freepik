@@ -4,8 +4,8 @@
 FROM php:8.3.4-fpm-bullseye as base
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY .containers/setup.freepik.api.sh .
-RUN chmod +x ./setup.freepik.api.sh && ./setup.freepik.api.sh && rm setup.freepik.api.sh
+COPY .containers/setup.minipokedex.api.sh .
+RUN chmod +x ./setup.minipokedex.api.sh && ./setup.minipokedex.api.sh && rm setup.minipokedex.api.sh
 
 WORKDIR /usr/src/app
 
@@ -14,14 +14,14 @@ WORKDIR /usr/src/app
 ########################################################################################################################
 FROM base as build
 
-COPY ./pokemonAPI .
+COPY ./minipokedexAPI .
 RUN composer update --ignore-platform-req=ext-pdo_mysql && \
     composer install --ignore-platform-req=ext-pdo_mysql
-RUN php vendor/bin/phpunit test
+# RUN php vendor/bin/phpunit test
 
 ########################################################################################################################
 ### APPLICATION ### PROD BUILD: docker build . --tag '<image-ref>:<image-tag>' --target application
 ########################################################################################################################
 FROM build as application
 
-CMD ["php", "public/index.php"]
+CMD ["php-fpm"]

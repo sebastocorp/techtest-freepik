@@ -22,21 +22,21 @@ return static function (ContainerBuilder $containerBuilder)
                     'level' => Logger::DEBUG,
                 ],
                 'database' => [
-                    'host' => getenv('DB_HOST'),
-                    'port' => getenv('DB_PORT'),
-                    'name' => getenv('DB_NAME'),
-                    'user' => getenv('DB_USER'),
-                    'password' => getenv('DB_PASS'),
-                    'charset' => getenv('DB_CHARSET'),
+                    'host' => isset($_ENV['DDBB_HOST']) ? $_ENV['DDBB_HOST'] : "placeholder",
+                    'port' => isset($_ENV['DDBB_PORT']) ? $_ENV['DDBB_PORT'] : "placeholder",
+                    'name' => isset($_ENV['DDBB_NAME']) ? $_ENV['DDBB_NAME'] : "placeholder",
+                    'user' => isset($_ENV['DDBB_USER']) ? $_ENV['DDBB_USER'] : "placeholder",
+                    'password' => isset($_ENV['DDBB_PASS']) ? $_ENV['DDBB_PASS'] : "placeholder",
+                    'charset'  => isset($_ENV['DDBB_CHARSET']) ? $_ENV['DDBB_CHARSET'] : "placeholder",
                 ],
                 'redis' => [
-                    'schema' => getenv('REDIS_SCHEMA'),
-                    'host' => getenv('REDIS_HOST'),
-                    'port' => getenv('REDIS_PORT'),
+                    'schema' => isset($_ENV['REDIS_SCHEMA']) ? $_ENV['REDIS_SCHEMA'] : "placeholder",
+                    'host' =>   isset($_ENV['REDIS_HOST']) ? $_ENV['REDIS_HOST'] : "placeholder",
+                    'port' =>   isset($_ENV['REDIS_PORT']) ? $_ENV['REDIS_PORT'] : "placeholder",
                 ],
                 'memcached' => [
-                    'host' => getenv('MEMCACHED_HOST'),
-                    'port' => getenv('MEMCACHED_PORT'),
+                    'host' => isset($_ENV['MEMCACHED_HOST']) ? $_ENV['MEMCACHED_HOST'] : "placeholder",
+                    'port' => isset($_ENV['MEMCACHED_PORT']) ? $_ENV['MEMCACHED_PORT'] : "placeholder",
                 ],
             ]);
         }

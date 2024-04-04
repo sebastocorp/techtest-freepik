@@ -6,14 +6,14 @@
         "develop": {
             "mayor": 0,
             "minor": 0,
-            "patch": 0,
-            "extra": "-dev"
+            "patch": 2,
+            "extra": "-freepik-minipokedex-api-dev"
         },
         "production": {
             "mayor": 0,
             "minor": 0,
             "patch": 0,
-            "extra": ""
+            "extra": "-freepik-minipokedex-api"
         }
     }
 }
