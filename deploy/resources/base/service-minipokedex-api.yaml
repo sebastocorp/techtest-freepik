@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minipokedex-api
+  labels:
+    app.kubernetes.io/name: minipokedex-api
+    app.kubernetes.io/instance: minipokedex-api
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: minipokedex-api
+    app.kubernetes.io/instance: minipokedex-api
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080

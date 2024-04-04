@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minipokedex
+  namespace: minipokedex
+  annotations:
+    # Ingress controller
+    # Ref: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
+    # Cert Manager
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: &host minipokedex.valbelhome.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minipokedex-api
+            port:
+              number: 80
+
+  tls:
+  - hosts:
+    - *host
+    secretName: minipokedex-tls

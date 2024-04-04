@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minipokedex-api
+  labels:
+    app.kubernetes.io/name: minipokedex-api
+    app.kubernetes.io/instance: minipokedex-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minipokedex-api
+      app.kubernetes.io/instance: minipokedex-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minipokedex-api
+        app.kubernetes.io/instance: minipokedex-api
+    spec:
+      # imagePullSecrets:
+      # - name: docker-registry-credentials
+      containers:
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+        volumeMounts:
+        - name: nginx-config
+          mountPath: "/etc/nginx/templates"
+        - name: app-source
+          mountPath: /usr/share/nginx/html/
+          readOnly: true
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      - name: php-fpm
+        image: varbel/techtests:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 9000
+        envFrom:
+        - secretRef:
+            name: minipokedex-api-env
+        volumeMounts:
+        - name: app-source
+          mountPath: /usr/share/nginx/html/
+        ## Copy code to shared volume with nginx container
+        lifecycle:
+          postStart:
+            exec:
+              command: [ "/bin/sh", "-c", "cp -r /usr/src/app/. /usr/share/nginx/html" ]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-configuration
+          items:
+          - key: default.conf.template
+            path: default.conf.template
+      - name: app-source
+        emptyDir: {}
