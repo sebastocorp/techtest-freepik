@@ -1,5 +1,0 @@
-project = {
-    name = "",
-    region = "",
-    zone = ""
-}
