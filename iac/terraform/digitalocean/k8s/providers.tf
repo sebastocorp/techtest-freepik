@@ -8,5 +8,5 @@ terraform {
 }
 
 provider "digitalocean" {
-  ## token provided by environment variable
+  ## token provided by environment variable DIGITALOCEAN_ACCESS_TOKEN
 }
