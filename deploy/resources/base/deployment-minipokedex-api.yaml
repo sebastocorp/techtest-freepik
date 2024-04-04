@@ -52,6 +52,7 @@ spec:
         - name: app-source
           mountPath: /usr/share/nginx/html/
         ## Copy code to shared volume with nginx container
+        ## REF: https://hub.docker.com/_/nginx
         lifecycle:
           postStart:
             exec:
