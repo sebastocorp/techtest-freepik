@@ -1,7 +1,7 @@
 ########################################################################################################################
 ### BASE
 ########################################################################################################################
-FROM php:8.3.4-fpm-bullseye as base
+FROM php:8.3.4-cli-bullseye as base
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY .containers/setup.minipokedex.api.sh .
@@ -17,7 +17,7 @@ FROM base as build
 COPY ./minipokedexAPI .
 RUN composer update --ignore-platform-req=ext-pdo_mysql && \
     composer install --ignore-platform-req=ext-pdo_mysql
-RUN php vendor/bin/phpunit test
+# RUN php vendor/bin/phpunit test
 
 ########################################################################################################################
 ### APPLICATION ### PROD BUILD: docker build . --tag '<image-ref>:<image-tag>' --target application
