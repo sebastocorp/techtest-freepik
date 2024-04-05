@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: simple-minipokedex-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: simple-minipokedex-api
+  maxReplicas: 20
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 70
