@@ -5,11 +5,25 @@ variable "project" {
     common_tags = map(string)
   })
   default = {
-    name   = "changeme",
+    name = "changeme",
     common_tags = {
       "key" : "value",
     }
   }
+}
+
+variable "bucket_list" {
+  description = "Minimum k8s node pool"
+  type = list(object({
+    name   = string,
+    region = string,
+  }))
+  default = [
+    {
+      name   = "changeme",
+      region = "changeme",
+    }
+  ]
 }
 
 variable "k8s_cluster" {
@@ -81,4 +95,3 @@ variable "k8s_node_pools" {
     }
   ]
 }
-

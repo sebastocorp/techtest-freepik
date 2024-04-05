@@ -7,3 +7,7 @@ output "k8s_kubeconfig" {
   }
   sensitive = true
 }
+
+output "freepik_bucket" {
+  value = digitalocean_spaces_bucket.freepik_buckets[*]
+}

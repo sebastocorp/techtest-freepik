@@ -27,6 +27,8 @@ locals {
       name : v.name
       size : v.size
       count : v.count
+      labels : v.labels
+      taint : v.taint
     }
   }
 }
@@ -37,4 +39,10 @@ resource "digitalocean_kubernetes_node_pool" "freepik_k8s_node_pools" {
   name       = each.value.name
   size       = each.value.size
   node_count = each.value.count
+  labels     = each.value.labels
+  taint {
+    key    = each.value.taint.key
+    value  = each.value.taint.value
+    effect = each.value.taint.effect
+  }
 }

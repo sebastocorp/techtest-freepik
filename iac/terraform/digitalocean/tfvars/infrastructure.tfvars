@@ -8,6 +8,13 @@ project = {
   }
 }
 
+bucket_list = [
+  {
+    name   = "freepik",
+    region = "fra1",
+  }
+]
+
 k8s_cluster = {
   name        = "freepik-k8s-cluster",
   region      = "fra1",
@@ -23,7 +30,7 @@ k8s_cluster = {
       effect = "",
     }
     labels = {
-      "node-type" : "general-propose",
+      "node-type" = "general-propose",
     }
   }
 }
@@ -39,7 +46,7 @@ k8s_node_pools = [
       effect = "NoSchedule"
     }
     labels = {
-      "node-type" : "data",
+      "node-type" = "data",
     }
   }
 ]

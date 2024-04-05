@@ -37,6 +37,14 @@ function exec_operation() {
         return 1
     fi
     echo -e "[ok] STEP: 'check operation' PASS"
+
+    terraform -chdir="${TF_MANAGE_CHDIR}" init
+    STATUS_CODE=$?
+    if [ "${STATUS_CODE}" -ne 0 ]; then
+        echo -e "[x] STEP: 'perform terraform init' FAIL"
+        return "${STATUS_CODE}"
+    fi
+    echo -e "[ok] STEP: 'perform terraform init' PASS"
     
     terraform -chdir="${TF_MANAGE_CHDIR}" "${TF_MANAGE_OPTION}" -var-file="../tfvars/${TF_MANAGE_TFVARS}"
     STATUS_CODE=$?
@@ -60,7 +68,7 @@ function set_kubeconfig() {
     echo -e "\n================================ set_kubeconfig ================================\n"
     local STATUS_CODE=0
 
-    mv $HOME/.kube/config $HOME/.kube/config.bak
+    mv "${HOME}/.kube/config" "${HOME}/.kube/config.bak"
     STATUS_CODE=$?
     if [ "${STATUS_CODE}" -ne 0 ]; then
         echo -e "[x] STEP: 'save old kubeconfig' FAIL"
@@ -88,16 +96,21 @@ function main() {
         return "${STATUS_CODE}"
     fi
 
-    save_tfstate
-    STATUS_CODE=$?
-    if [ "${STATUS_CODE}" -ne 0 ]; then
-        return "${STATUS_CODE}"
+    if [ "${TF_MANAGE_OPTION}" == "apply" ] || [ "${TF_MANAGE_OPTION}" == "destroy" ]; then
+        save_tfstate
+        STATUS_CODE=$?
+        if [ "${STATUS_CODE}" -ne 0 ]; then
+            return "${STATUS_CODE}"
+        fi
     fi
 
-    set_kubeconfig
-    STATUS_CODE=$?
-    if [ "${STATUS_CODE}" -ne 0 ]; then
-        return "${STATUS_CODE}"
+    
+    if [ "${TF_MANAGE_OPTION}" == "apply" ]; then
+        set_kubeconfig
+        STATUS_CODE=$?
+        if [ "${STATUS_CODE}" -ne 0 ]; then
+            return "${STATUS_CODE}"
+        fi
     fi
 
     return 0
