@@ -6,7 +6,7 @@
         "develop": {
             "mayor": 0,
             "minor": 0,
-            "patch": 1,
+            "patch": 4,
             "extra": "-freepik-simple-minipokedex-api-dev"
         },
         "production": {

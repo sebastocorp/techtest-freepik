@@ -23,7 +23,7 @@ return static function (ContainerBuilder $containerBuilder)
                 ],
                 'database' => [
                     'host' => isset($_ENV['DDBB_HOST']) ? $_ENV['DDBB_HOST'] : "placeholder",
-                    'port' => isset($_ENV['DDBB_PORT']) ? $_ENV['DDBB_PORT'] : "placeholder",
+                    'port' => isset($_ENV['DDBB_PORT']) ? intval($_ENV['DDBB_PORT']) : "placeholder",
                     'name' => isset($_ENV['DDBB_NAME']) ? $_ENV['DDBB_NAME'] : "placeholder",
                     'user' => isset($_ENV['DDBB_USER']) ? $_ENV['DDBB_USER'] : "placeholder",
                     'password' => isset($_ENV['DDBB_PASS']) ? $_ENV['DDBB_PASS'] : "placeholder",
@@ -32,11 +32,11 @@ return static function (ContainerBuilder $containerBuilder)
                 'redis' => [
                     'schema' => isset($_ENV['REDIS_SCHEMA']) ? $_ENV['REDIS_SCHEMA'] : "placeholder",
                     'host' =>   isset($_ENV['REDIS_HOST']) ? $_ENV['REDIS_HOST'] : "placeholder",
-                    'port' =>   isset($_ENV['REDIS_PORT']) ? $_ENV['REDIS_PORT'] : "placeholder",
+                    'port' =>   isset($_ENV['REDIS_PORT']) ? intval($_ENV['REDIS_PORT']) : "placeholder",
                 ],
                 'memcached' => [
                     'host' => isset($_ENV['MEMCACHED_HOST']) ? $_ENV['MEMCACHED_HOST'] : "placeholder",
-                    'port' => isset($_ENV['MEMCACHED_PORT']) ? $_ENV['MEMCACHED_PORT'] : "placeholder",
+                    'port' => isset($_ENV['MEMCACHED_PORT']) ? intval($_ENV['MEMCACHED_PORT']) : "placeholder",
                 ],
             ]);
         }
