@@ -1,17 +1,40 @@
-## REF: https://github.com/bitnami/charts/blob/main/bitnami/mysql/values.yaml
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/mariadb/values.yaml
 ---
-mysql:
+mariadb:
   auth:
     username: minipokedex
     database: minipokedex_data
-    existingSecret: minipokedex-mysql-credentials
+    existingSecret: minipokedex-mariadb-credentials
+  
+  ## REF: https://github.com/bitnami/charts/blob/main/bitnami/mariadb/README.md#initialize-a-fresh-instance
+  ## REF: https://mariadb.com/kb/en/sql-statements/
+  initdbScripts:
+    createtable.sql: |
+      CREATE DATABASE IF NOT EXISTS minipokedex_data;
+
+      USE minipokedex_data;
+
+      CREATE TABLE IF NOT EXISTS pokemon (
+                               `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                               `name` VARCHAR(14) NOT NULL,
+                               `type` VARCHAR(14) NOT NULL,
+                               PRIMARY KEY (`id`)
+      );
+
+      USE minipokedex_data;
+
+      INSERT INTO pokemon (`name`, `type`) VALUES
+                                               ('bulbasaur', 'planta'),
+                                               ('charmander', 'fuego'),
+                                               ('squirtle', 'agua');
+
   primary:
     ## Add priority class name to ensure availability
     priorityClassName: high-priority
 
     ## Is better option externalize the pvc to control the storage
     persistence:
-      existingClaim: minipokedex-mysql-data
+      existingClaim: minipokedex-mariadb-data
 
     ## NOTE: in bitnami charts the readiness, startup and liveness probes are set by default
 

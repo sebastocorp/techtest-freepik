@@ -1,19 +1,19 @@
-## REF: https://github.com/bitnami/charts/blob/main/bitnami/mysql/values.yaml
+## REF: https://github.com/bitnami/charts/blob/main/bitnami/mariadb/values.yaml
 ## dependency commands:
 ##   - helm dependency build
 ##   - helm dependency update
 ## template commands:
 ##   - helm template . --values values-production.yaml --namespace minipokedex
 ## install commands:
-##   - helm upgrade minipokedex-mysql . --install --values values-production.yaml --namespace minipokedex
+##   - helm upgrade minipokedex-mariadb . --install --values values-production.yaml --namespace minipokedex
 ## uninstall commands:
-##   - helm uninstall minipokedex-mysql --namespace minipokedex
+##   - helm uninstall minipokedex-mariadb --namespace minipokedex
 ---
 apiVersion: v2
-name: minipokedex-mysql
+name: minipokedex-mariadb
 version: 1.0.0
 dependencies:
-  - name: mysql
-    version: 10.1.1 # app version: 8.0.36
+  - name: mariadb
+    version: 18.0.1 # app version: 11.3.2
     repository: https://charts.bitnami.com/bitnami
-    alias: mysql
+    alias: mariadb

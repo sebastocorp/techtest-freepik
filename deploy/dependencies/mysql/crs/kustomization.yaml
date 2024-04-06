@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: minipokedex
 
 resources:
-- pvc-minipokedex-mysql-data.yaml
+- pvc-minipokedex-mariadb-data.yaml
 
 ## WARNING: use external secrets or similar solution in production environment
-- secret-minipokedex-mysql-credentials.yaml
+- secret-minipokedex-mariadb-credentials.yaml
