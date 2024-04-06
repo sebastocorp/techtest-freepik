@@ -9,6 +9,19 @@ memcached:
   ## Add priority class name to ensure availability
   priorityClassName: high-priority
 
+  ## enable autoscaling (architecture: high-availability needed)
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 6
+    targetCPU: 50
+    targetMemory: 50
+  
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false
+  
   ## Affinity and tolerations to enforce the deployment to specific nodes
   affinity:
     nodeAffinity:
