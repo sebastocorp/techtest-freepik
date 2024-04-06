@@ -28,6 +28,13 @@ mariadb:
                                                ('charmander', 'fuego'),
                                                ('squirtle', 'agua');
 
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false
+    prometheusRule:
+      enabled: false
+  
   primary:
     ## Add priority class name to ensure availability
     priorityClassName: high-priority
