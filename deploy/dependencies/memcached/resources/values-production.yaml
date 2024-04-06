@@ -2,7 +2,7 @@
 ---
 memcached:
   architecture: high-availability
-  replicaCount: 3
+  replicaCount: 1
 
   ## NOTE: in bitnami charts the readiness, startup and liveness probes are set by default
 

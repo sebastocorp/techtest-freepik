@@ -8,7 +8,7 @@ commonLabels:
 
 images:
 - name: varbel/techtests
-  newTag: v0.0.2-freepik-simple-minipokedex-api-dev
+  newTag: v0.0.4-freepik-simple-minipokedex-api-dev
 
 resources:
 - ../base
