@@ -38,6 +38,9 @@ resource "digitalocean_kubernetes_node_pool" "freepik_k8s_node_pools" {
   cluster_id = digitalocean_kubernetes_cluster.freepik_k8s_cluster.id
   name       = each.value.name
   size       = each.value.size
+  auto_scale = true
+  min_nodes  = 1
+  max_nodes  = 2
   node_count = each.value.count
   labels     = each.value.labels
   taint {

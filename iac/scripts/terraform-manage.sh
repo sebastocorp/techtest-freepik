@@ -76,7 +76,7 @@ function set_kubeconfig() {
     fi
     echo -e "[ok] STEP: 'save old kubeconfig' PASS"
 
-    terraform output -json k8s_kubeconfig | jq -r .kubeconfig.raw_config > $HOME/.kube/config
+    terraform -chdir="${TF_MANAGE_CHDIR}" output --raw k8s_kubeconfig > $HOME/.kube/config
     STATUS_CODE=$?
     if [ "${STATUS_CODE}" -ne 0 ]; then
         echo -e "[x] STEP: 'create new kubeconfig' FAIL"

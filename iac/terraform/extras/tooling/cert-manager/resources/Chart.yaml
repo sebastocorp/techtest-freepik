@@ -1,0 +1,18 @@
+## REF: https://github.com/cert-manager/cert-manager/blob/master/deploy/charts/cert-manager/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace cert-manager
+## install commands:
+##   - helm upgrade cert-manager . --install --values values-production.yaml --namespace cert-manager
+## uninstall commands:
+##   - helm uninstall cert-manager --namespace cert-manager
+---
+apiVersion: v2
+name: cert-manager
+version: 0.5.0
+dependencies:
+  - name: cert-manager
+    version: 1.9.1
+    repository: https://charts.jetstack.io

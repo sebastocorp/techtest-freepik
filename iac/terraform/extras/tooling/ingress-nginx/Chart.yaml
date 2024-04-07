@@ -1,0 +1,18 @@
+## REF: https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace ingress-nginx
+## install commands:
+##   - helm upgrade ingress-nginx . --install --values values-production.yaml --namespace ingress-nginx
+## uninstall commands:
+##   - helm uninstall ingress-nginx --namespace ingress-nginx
+---
+apiVersion: v2
+name: ingress-nginx
+version: 0.7.0
+dependencies:
+  - name: ingress-nginx
+    version: 4.2.5
+    repository: https://kubernetes.github.io/ingress-nginx

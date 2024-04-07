@@ -1,0 +1,18 @@
+## REF: https://github.com/kubernetes-sigs/external-dns/blob/master/charts/external-dns/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace external-dns
+## install commands:
+##   - helm upgrade external-dns . --install --values values-production.yaml --namespace external-dns
+## uninstall commands:
+##   - helm uninstall external-dns --namespace external-dns
+---
+apiVersion: v2
+name: external-dns
+version: 0.5.0
+dependencies:
+  - name: external-dns
+    version: 1.11.0
+    repository: https://kubernetes-sigs.github.io/external-dns/

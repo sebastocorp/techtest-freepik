@@ -1,0 +1,14 @@
+## REF: https://github.com/kubernetes-sigs/external-dns/blob/master/charts/external-dns/values.yaml
+---
+external-dns:
+  priorityClassName: low-priority
+  logLevel: info
+  logFormat: json
+  ## REF: https://www.digitalocean.com/community/tutorials/how-to-automatically-manage-dns-records-from-digitalocean-kubernetes-using-externaldns
+  provider: cloudflare
+  extraArgs:
+    - --source=ingress
+    - --domain-filter=varbelhome.com
+  env:
+    - name: CF_API_TOKEN
+      value: "<cloudflare-api-token>"

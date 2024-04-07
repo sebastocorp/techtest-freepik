@@ -12,6 +12,8 @@ locals {
   }
 }
 
+## you need set SPACES_ACCESS_KEY_ID and SPACES_SECRET_ACCESS_KEY env tomanage buckets
+
 resource "digitalocean_spaces_bucket" "freepik_buckets" {
   for_each = local.buckets_map
   name     = each.value.name

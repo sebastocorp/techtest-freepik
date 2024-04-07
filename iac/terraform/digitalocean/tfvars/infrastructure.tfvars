@@ -8,12 +8,16 @@ project = {
   }
 }
 
+## REF: https://docs.digitalocean.com/products/spaces/reference/s3cmd-usage/#upload-files-to-a-space
+
 bucket_list = [
   {
     name   = "freepik",
     region = "fra1",
   }
 ]
+
+## REF: https://docs.digitalocean.com/products/kubernetes/details/limits/#allocatable-memory
 
 k8s_cluster = {
   name        = "freepik-k8s-cluster",
@@ -38,7 +42,7 @@ k8s_cluster = {
 k8s_node_pools = [
   {
     name  = "data",
-    size  = "s-2vcpu-2gb"
+    size  = "s-2vcpu-4gb"
     count = 1,
     taint = {
       key    = "data"
@@ -47,6 +51,19 @@ k8s_node_pools = [
     }
     labels = {
       "node-type" = "data",
+    }
+  },
+  {
+    name  = "monitoring",
+    size  = "s-4vcpu-8gb"
+    count = 1,
+    taint = {
+      key    = "monitoring"
+      value  = "dedicated"
+      effect = "NoSchedule"
+    }
+    labels = {
+      "node-type" = "monitoring",
     }
   }
 ]
