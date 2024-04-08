@@ -17,6 +17,7 @@ function usage() {
     echo -e "dependencies:"
     echo -e "  - terraform"
     echo -e "  - doctl"
+    echo -e "  - s3cmd"
     echo -e "  - jq"
     echo -e "environment: (none)"
     echo -e "flags:"
@@ -61,6 +62,17 @@ function save_tfstate() {
     echo -e "\n================================ save_tfstate ================================\n"
     local STATUS_CODE=0
     # TODO: save the tfstate
+    
+    bname=$(terraform -chdir="${TF_MANAGE_CHDIR}" output --json freepik_bucket | jq -r .[0].freepik.name | xargs)
+
+    s3cmd put "${TF_MANAGE_CHDIR}/terraform.tfstate" "s3://${bname}/terraform/"
+    STATUS_CODE=$?
+    if [ "${STATUS_CODE}" -ne 0 ]; then
+        echo -e "[x] STEP: 'save tfstate in bucket' FAIL"
+        return "${STATUS_CODE}"
+    fi
+    echo -e "[ok] STEP: 'save tfstate in bucket' PASS"
+
     return 0
 }
 
