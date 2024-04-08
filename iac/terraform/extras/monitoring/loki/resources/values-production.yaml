@@ -1,0 +1,116 @@
+## REF: https://github.com/grafana/helm-charts/blob/main/charts/loki-distributed/values.yaml
+---
+grafana-loki-dist:
+  global:
+    ## Add priority to avoid reschedule with lower priority deployments
+    priorityClassName: middle-priority
+  
+  loki:
+    structuredConfig:
+      # ingester:
+      #   ## Try to fix ingester Readiness probe failing with 503
+      #   flush_op_timeout: 10m
+      #   # Disable chunk transfer which is not possible with statefulsets
+      #   # and unnecessary for boltdb-shipper
+      #   max_transfer_retries: 0
+      #   chunk_idle_period: 1h
+      #   chunk_target_size: 1536000
+      #   max_chunk_age: 1h
+      auth_enabled: false
+      common:
+        storage:
+          s3:
+            bucketnames: freepik
+            endpoint: fra1.digitaloceanspaces.com
+            region: fra1
+            access_key_id: <do-ak>
+            secret_access_key: <do-sak>
+            insecure: false
+            sse_encryption: false
+            s3forcepathstyle: true
+            http_config:
+              idle_conn_timeout: 90s
+              response_header_timeout: 0s
+              insecure_skip_verify: false
+      schema_config:
+        configs:
+          - from: "2023-08-17"
+            store: boltdb-shipper
+            object_store: aws
+            schema: v11
+            index:
+              prefix: loki_index_
+              period: 24h
+      storage_config:
+        boltdb_shipper:
+          shared_store: s3
+      compactor:
+        shared_store: s3
+        compaction_interval: 5m
+
+  ingester:
+    replicas: 1
+    maxUnavailable: 1
+    # Tolerate monitoring nodes
+    tolerations: &tolerationsRef
+    - key: monitoring
+      value: dedicated
+      operator: Equal
+      effect: NoSchedule
+    # Try to go to monitoring nodes
+    # Avoid go to nodes where prometheus is inside. Too much consumption
+    affinity: &affinityRef |
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-type
+                  operator: In
+                  values:
+                    - monitoring
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - prometheus
+            topologyKey: "kubernetes.io/hostname"
+
+  distributor:
+    replicas: 1
+    maxUnavailable: 1
+    tolerations: *tolerationsRef
+    affinity: *affinityRef
+
+  querier:
+    replicas: 1
+    maxUnavailable: 1
+    tolerations: *tolerationsRef
+    affinity: *affinityRef
+
+  queryFrontend:
+    replicas: 1
+    maxUnavailable: 1
+    tolerations: *tolerationsRef
+    affinity: *affinityRef
+
+  gateway:
+    tolerations: *tolerationsRef
+    affinity: *affinityRef
+  
+  ## Config monitoring
+  serviceMonitor:
+    enabled: true
+  prometheusRule:
+    enabled: true
+    groups:
+    - name: loki-rules
+      rules:
+      - record: job:loki_request_duration_seconds_bucket:sum_rate
+        expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, job)
+      - record: job_route:loki_request_duration_seconds_bucket:sum_rate
+        expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, job, route)
+      - record: node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate
+        expr: sum(rate(container_cpu_usage_seconds_total[1m])) by (node, namespace, pod, container)

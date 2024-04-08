@@ -1,0 +1,19 @@
+## REF: https://github.com/grafana/helm-charts/blob/main/charts/loki-distributed/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace loki
+## install commands:
+##   - helm upgrade loki . --install --values values-production.yaml --namespace loki
+## uninstall commands:
+##   - helm uninstall loki --namespace loki
+---
+apiVersion: v2
+name: loki
+version: 0.1.0
+dependencies:
+  - name: loki-distributed
+    version: 0.71.1 # app version: 2.8.3
+    repository: https://grafana.github.io/helm-charts
+    alias: grafana-loki-dist
