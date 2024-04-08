@@ -1,0 +1,18 @@
+## REF: https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace grafana
+## install commands:
+##   - helm upgrade grafana . --install --values values-production.yaml --namespace grafana
+## uninstall commands:
+##   - helm uninstall grafana --namespace grafana
+---
+apiVersion: v2
+name: grafana
+version: 0.1.0
+dependencies:
+  - name: grafana
+    version: 6.58.2 # version: 10.0.1
+    repository: https://grafana.github.io/helm-charts
