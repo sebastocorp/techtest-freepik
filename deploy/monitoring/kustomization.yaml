@@ -7,5 +7,5 @@ commonLabels:
   environment: production
 
 resources:
-- ingress-minipokedex.yaml
-- secret-minipokedex-api-env.yaml
+- configmap-minipokedex-dashboard.yaml
+- serviceMonitor-minipokedex-api.yaml

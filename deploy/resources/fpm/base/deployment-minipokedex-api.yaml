@@ -47,7 +47,7 @@ spec:
           containerPort: 9000
         envFrom:
         - secretRef:
-            name: minipokedex-api-env
+            name: simple-minipokedex-api-env
         volumeMounts:
         - name: app-source
           mountPath: /usr/share/nginx/html/
@@ -57,6 +57,19 @@ spec:
           postStart:
             exec:
               command: [ "/bin/sh", "-c", "cp -r /usr/src/app/. /usr/share/nginx/html" ]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      - name: php-fpm-exporter
+        image: hipages/php-fpm_exporter:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: metrics
+          containerPort: 9253
         resources:
           requests:
             memory: "64Mi"

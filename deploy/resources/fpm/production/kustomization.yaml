@@ -10,7 +10,9 @@ images:
 - name: nginx
   newTag: "1.25.4"
 - name: varbel/techtests
-  newTag: v0.0.2-freepik-minipokedex-api-dev
+  newTag: v0.0.7-freepik-minipokedex-api-dev
+- name: hipages/php-fpm_exporter
+  newTag: "2.2.0"
 
 resources:
 - ../base

@@ -1,7 +1,11 @@
 ########################################################################################################################
 ### BASE
 ########################################################################################################################
-FROM php:8.3.4-fpm-bullseye as base
+## DISCLAIMER:
+##     back from 8.3.4 to 8.1.27 because self callbacks are deprecated in 8.2 version
+##     REF: https://www.php.net/manual/en/migration82.deprecated.php
+##     error: Deprecated: Use of "self" in callables is deprecated in /usr/src/app/vendor/predis/predis/lib/Predis/Connection/ConnectionParameters.php on line 143
+FROM php:8.1.27-fpm-bullseye as base
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY .containers/setup.minipokedex.api.sh .
@@ -15,9 +19,8 @@ WORKDIR /usr/src/app
 FROM base as build
 
 COPY ./minipokedexAPI .
-RUN composer update --ignore-platform-req=ext-pdo_mysql && \
-    composer install --ignore-platform-req=ext-pdo_mysql
-# RUN php vendor/bin/phpunit test
+RUN composer update --ignore-platform-req=ext-pdo_mysql --no-dev && \
+    composer install --ignore-platform-req=ext-pdo_mysql --no-dev
 
 ########################################################################################################################
 ### APPLICATION ### PROD BUILD: docker build . --tag '<image-ref>:<image-tag>' --target application
@@ -25,3 +28,11 @@ RUN composer update --ignore-platform-req=ext-pdo_mysql && \
 FROM build as application
 
 CMD ["php-fpm"]
+
+########################################################################################################################
+### DEBUG ###
+########################################################################################################################
+## needed to execute: php vendor/bin/phpunit test
+FROM application as debug
+RUN composer update --ignore-platform-req=ext-pdo_mysql && \
+    composer install --ignore-platform-req=ext-pdo_mysql

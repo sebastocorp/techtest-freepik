@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: minipokedex
-  namespace: minipokedex
+  name: simple-minipokedex
+  namespace: simple-minipokedex
   annotations:
     # Ingress controller
     # Ref: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: &host minipokedex.valbelhome.com
+  - host: &host minipokedex.varbelhome.com
     http:
       paths:
       - path: /
@@ -20,9 +20,9 @@ spec:
           service:
             name: minipokedex-api
             port:
-              number: 80
+              number: 8080
 
   tls:
   - hosts:
     - *host
-    secretName: minipokedex-tls
+    secretName: simple-minipokedex-tls

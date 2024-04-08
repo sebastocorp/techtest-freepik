@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: minipokedex-api
+  labels: &labels
+    app.kubernetes.io/name: minipokedex-api
+    app.kubernetes.io/instance: minipokedex-api
+spec:
+  namespaceSelector:
+    matchNames:
+    - minipokedex
+  selector:
+    matchLabels: *labels
+  endpoints:
+  - targetPort: 9253
+    path: /metrics
+    interval: 5s
+    scrapeTimeout: 5s

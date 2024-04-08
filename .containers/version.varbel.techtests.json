@@ -1,19 +1,19 @@
 {
     "project": "minipokedex",
     "service": "api",
-    "containerfile": "Containerfile.simple.minipokedex.api",
+    "containerfile": "Containerfile.minipokedex.api",
     "version": {
         "develop": {
             "mayor": 0,
             "minor": 0,
-            "patch": 6,
-            "extra": "-freepik-simple-minipokedex-api-dev"
+            "patch": 7,
+            "extra": "-freepik-minipokedex-api-dev"
         },
         "production": {
             "mayor": 0,
             "minor": 0,
             "patch": 0,
-            "extra": "-freepik-simple-minipokedex-api"
+            "extra": "-freepik-minipokedex-api"
         }
     }
 }
