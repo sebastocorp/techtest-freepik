@@ -1,0 +1,18 @@
+## REF: https://github.com/fluent/helm-charts/blob/main/charts/fluent-bit/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace fluent-bit
+## install commands:
+##   - helm upgrade fluent-bit . --install --values values-production.yaml --namespace fluent-bit
+## uninstall commands:
+##   - helm uninstall fluent-bit --namespace fluent-bit
+---
+apiVersion: v2
+name: fluent-bit
+version: 0.1.0
+dependencies:
+  - name: fluent-bit
+    version: 0.34.2 # version: 2.1.6
+    repository: https://fluent.github.io/helm-charts

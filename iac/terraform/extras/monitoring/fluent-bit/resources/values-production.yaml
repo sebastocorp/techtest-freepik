@@ -1,0 +1,76 @@
+## REF: https://github.com/fluent/helm-charts/blob/main/charts/fluent-bit/values.yaml
+---
+fluent-bit:
+  ## Add priority to avoid reschedule with lower priority deployments
+  priorityClassName: middle-priority
+  
+  fullnameOverride: fluent-bit
+
+  # Deploy monitoring for Prometheus
+  serviceMonitor:
+    enabled: true
+
+  # Deploy alerts for Alertmanager
+  prometheusRule:
+    enabled: false # only true in prod
+    rules:
+    - alert: NoOutputBytesProcessed
+      expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+      annotations:
+        message: |
+           Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+           bytes for at least 15 minutes.
+        summary: No Output Bytes Processed
+      for: 15m
+      labels:
+        severity: critical
+
+  # Deploy dashboards for Grafana
+  dashboards:
+    enabled: true
+    labelKey: grafana_dashboard_monitoring
+
+  # Throw the output into Loki
+  # https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
+  config:
+    outputs: |
+      [OUTPUT]
+          name                   loki
+          match                  kube.var.log.containers.*.log
+          host                   loki-grafana-loki-dist-distributor.loki.svc
+          port                   3100
+          labels                 job=fluentbit
+          line_format            json
+          auto_kubernetes_labels on
+
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
