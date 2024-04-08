@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-templates
+data:
+  template_telegram.tmpl: |
+    {{ define "telegram.default.message" }}
+      Type: {{.CommonAnnotations.description}}
+      Summary: {{.CommonAnnotations.summary}}
+      Alertname: {{ .CommonLabels.alertname }}
+      Instance: {{ .CommonLabels.instance }}
+      Severity: {{ .CommonLabels.severity}}
+      Status:  {{ .Status }}
+    {{ end }}

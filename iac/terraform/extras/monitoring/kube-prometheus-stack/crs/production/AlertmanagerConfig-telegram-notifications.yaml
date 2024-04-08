@@ -1,0 +1,37 @@
+# Ref: https://prometheus-operator.dev/docs/operator/api/#matcher
+# Ref: https://prometheus.io/docs/alerting/latest/configuration/#telegram_config
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: telegram-notifications
+  labels:
+    alertconfig: "telegram-notifications"
+spec:
+  route:
+    groupBy: ['job']
+    groupWait: 5s # 30s; 30s; 1m
+    groupInterval: 10s
+    repeatInterval: 1m
+    receiver: 'telegram'
+    routes:
+    - receiver: 'telegram'
+      match:
+        severity: 'warning'
+  receivers:
+  - name: 'telegram'
+    telegramConfigs:
+    # Whether to notify about resolved alerts.
+    - sendResolved: true
+      # The Telegram API URL i.e. https://api.telegram.org.
+      # If not specified, default API URL will be used.
+      apiURL: 'https://api.telegram.org'
+      # Telegram bot token
+      botToken:
+        name: alertmanagerconfig-secrets
+        key: telegram-bot-token
+      # ID of the chat where to send the messages.
+      # WARNING: Add the chatID before deploy
+      chatID: <chat-id>
+      # Message template
+      message: '{{ template "telegram.default.message" . }}'

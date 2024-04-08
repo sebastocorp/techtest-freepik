@@ -1,0 +1,18 @@
+## REF: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+## dependency commands:
+##   - helm dependency build
+##   - helm dependency update
+## template commands:
+##   - helm template . --values values-production.yaml --namespace kube-prometheus-stack
+## install commands:
+##   - helm upgrade kube-prometheus-stack . --install --values values-production.yaml --namespace kube-prometheus-stack
+## uninstall commands:
+##   - helm uninstall kube-prometheus-stack --namespace kube-prometheus-stack
+---
+apiVersion: v2
+name: kube-prometheus-stack
+version: 0.1.1
+dependencies:
+  - name: kube-prometheus-stack
+    version: 48.0.1 # app version: v0.66.0
+    repository: https://prometheus-community.github.io/helm-charts
